@@ -10,7 +10,6 @@ import "./interface/IRelayerHub.sol";
 import "./interface/IParamSubscriber.sol";
 import "./interface/IBSCValidatorSet.sol";
 import "./interface/IApplication.sol";
-import "./interface/ICrossChain.sol";
 import "./lib/SafeMath.sol";
 import "./lib/RLPDecode.sol";
 import "./lib/CmnPkg.sol";
@@ -84,6 +83,9 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
   struct ValidatorExtra {
     uint256 enterMaintenanceHeight;     // the block number at which the validator enters Maintenance
     bool isMaintaining;
+
+    // reserve for future use
+    uint256[40] slots;
   }
 
   /*********************** cross chain package **************************/
@@ -453,9 +455,7 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
   function exitMaintenance() external {
     uint256 index = getCurrentValidatorIndex(msg.sender);
 
-    // TODO Does it need to check jailed?
-    // require(!currentValidatorSet[index].jailed, "not jailed");
-
+    // jailed validators are allowed to exit maintenance
     require(validatorExtraSet[index].isMaintaining, "not in maintenance");
     _exitMaintenance(msg.sender, index);
   }
@@ -526,6 +526,7 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
     if (n>m) {
       for (uint i = m;i<n;i++) {
         currentValidatorSet.pop();
+        validatorExtraSet.pop();
       }
     }
     uint k = n < m ? n:m;
@@ -540,6 +541,9 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
     if (m>n) {
       for (uint i = n;i<m;i++) {
         currentValidatorSet.push(validatorSet[i]);
+        validatorExtraSet.push(ValidatorExtra(0, false,
+          [uint256(0), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ));
         currentValidatorSetMap[validatorSet[i].consensusAddress] = i+1;
       }
     }
