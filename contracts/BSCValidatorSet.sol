@@ -233,6 +233,15 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
       }
     }
 
+    // re-init validatorExtraSet
+    if (validatorExtraSet.length == 0) {
+      for (uint i = 0; i < currentValidatorSet.length; i++) {
+        validatorExtraSet.push(ValidatorExtra(0, false,
+          [uint256(0), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ));
+      }
+    }
+
     // step 0: force all maintaining validators to exit `Temporary Maintenance`
     // - 1. validators exit maintenance
     // - 2. clear all maintainInfo
