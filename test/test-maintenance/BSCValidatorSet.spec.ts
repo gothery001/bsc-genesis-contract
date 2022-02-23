@@ -363,10 +363,10 @@ describe('BSCValidatorSet', () => {
     expect(validatorExtra.isMaintaining).to.be.eq(false);
     expect(validatorExtra.enterMaintenanceHeight.toNumber() > 0).to.be.eq(true);
     expect(await validatorSet.getMaintainingValidators()).to.deep.eq([
-      validators[6],
       validators[3],
       validators[4],
       validators[5],
+      validators[6],
     ]);
   });
 
@@ -380,10 +380,10 @@ describe('BSCValidatorSet', () => {
     expect(validatorExtra.isMaintaining).to.be.eq(false);
     expect(validatorExtra.enterMaintenanceHeight.toNumber() > 0).to.be.eq(true);
     expect(await validatorSet.getMaintainingValidators()).to.deep.eq([
-      validators[6],
       validators[3],
       validators[4],
       validators[5],
+      validators[6],
     ]);
   });
 
@@ -400,10 +400,10 @@ describe('BSCValidatorSet', () => {
     expect(validatorExtra.isMaintaining).to.be.eq(true);
     expect(validatorExtra.enterMaintenanceHeight.toNumber() > 0).to.be.eq(true);
     expect(await validatorSet.getMaintainingValidators()).to.deep.eq([
-      validators[6],
       validators[3],
       validators[4],
       validators[5],
+      validators[6],
       validators[8],
     ]);
   });
@@ -424,10 +424,10 @@ describe('BSCValidatorSet', () => {
     index = await validatorSet.currentValidatorSetMap(validators[1]);
     expect(index.toNumber() === 0).to.be.eq(true);
     expect(await validatorSet.getMaintainingValidators()).to.deep.eq([
-      validators[6],
       validators[3],
       validators[4],
       validators[5],
+      validators[6],
       validators[8],
     ]);
   });
@@ -448,10 +448,10 @@ describe('BSCValidatorSet', () => {
     expect(validatorExtra.isMaintaining).to.be.eq(false);
     expect(validatorExtra.enterMaintenanceHeight.toNumber() > 0).to.be.eq(true);
     expect(await validatorSet.getMaintainingValidators()).to.deep.eq([
-      validators[6],
       validators[3],
-      validators[8],
       validators[5],
+      validators[6],
+      validators[8],
     ]);
   });
 
@@ -469,10 +469,10 @@ describe('BSCValidatorSet', () => {
 
     expect(validatorExtra.isMaintaining).to.be.eq(false);
     expect(await validatorSet.getMaintainingValidators()).to.deep.eq([
-      validators[6],
       validators[3],
-      validators[8],
       validators[5],
+      validators[6],
+      validators[8],
     ]);
   });
 
@@ -487,10 +487,10 @@ describe('BSCValidatorSet', () => {
     expect(validatorExtra.isMaintaining).to.be.eq(true);
     expect(validatorExtra.enterMaintenanceHeight.toNumber() > 0).to.be.eq(true);
     expect(await validatorSet.getMaintainingValidators()).to.deep.eq([
-      validators[6],
       validators[3],
-      validators[8],
       validators[5],
+      validators[6],
+      validators[8],
       validators[10],
     ]);
   });
@@ -505,10 +505,10 @@ describe('BSCValidatorSet', () => {
     expect(validatorExtra.isMaintaining).to.be.eq(false);
     expect(validatorExtra.enterMaintenanceHeight.toNumber() > 0).to.be.eq(true);
     expect(await validatorSet.getMaintainingValidators()).to.deep.eq([
-      validators[6],
-      validators[10],
-      validators[8],
       validators[5],
+      validators[6],
+      validators[8],
+      validators[10],
     ]);
   });
 
@@ -527,10 +527,10 @@ describe('BSCValidatorSet', () => {
 
   it('common case 1-24: 24 hours ended, clear all maintainInfo', async () => {
     expect(await validatorSet.getMaintainingValidators()).to.deep.eq([
-      validators[6],
-      validators[10],
-      validators[8],
       validators[5],
+      validators[6],
+      validators[8],
+      validators[10],
     ]);
 
     await waitTx(
@@ -565,6 +565,14 @@ describe('BSCValidatorSet', () => {
     expect(await validatorSet.getValidators()).to.deep.eq(expectedValidators);
 
     for (let i = 2; i < 23; i++) {
+      log(`validator-${i}`);
+      if (i === 5 || i === 6) {
+        // because of felony, validator-5,6 are not the current validators
+        expect(validatorSet.getCurrentValidatorIndex(validators[i])).to.be.revertedWith(
+          'only current validators'
+        );
+        continue;
+      }
       const index = await validatorSet.getCurrentValidatorIndex(validators[i]);
       const validatorExtra = await validatorSet.validatorExtraSet(index);
 

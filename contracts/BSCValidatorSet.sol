@@ -233,13 +233,8 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
       }
     }
 
-    // re-init validatorExtraSet
     if (validatorExtraSet.length == 0) {
-      for (uint i = 0; i < currentValidatorSet.length; i++) {
-        validatorExtraSet.push(ValidatorExtra(0, false,
-          [uint256(0), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        ));
-      }
+      _initValidatorExtraSet();
     }
 
     // step 0: force all maintaining validators to exit `Temporary Maintenance`
@@ -447,8 +442,20 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
     return true;
   }
 
+  function _initValidatorExtraSet() private {
+    for (uint i = 0; i < currentValidatorSet.length; i++) {
+      validatorExtraSet.push(ValidatorExtra(0, false,
+        [uint256(0), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ));
+    }
+  }
+
   function enterMaintenance() external {
     // check maintain config
+    // init validatorExtraSet
+    if (validatorExtraSet.length == 0) {
+      _initValidatorExtraSet();
+    }
     if (maxNumOfMaintaining == 0) {
       maxNumOfMaintaining = INIT_MAX_NUM_OF_MAINTAINING;
     }
@@ -645,7 +652,7 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
       // only maintaining validators
       validator = currentValidatorSet[i].consensusAddress;
 
-      // exit maintenance (clear maintainInfo)
+      // exit maintenance
       isFelony = _exitMaintenance(validator, i);
       if (!isFelony || numOfFelony >= _validatorSet.length - 1) {
         continue;
@@ -661,7 +668,13 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
       }
     }
 
-    // 2. get unjailed validators from validatorSet
+    // 2. clear all maintain info
+    for (uint i = 0; i < currentValidatorSet.length; i++) {
+      validatorExtraSet[i].isMaintaining = false;
+      validatorExtraSet[i].enterMaintenanceHeight = 0;
+    }
+
+    // 3. get unjailed validators from validatorSet
     unjailedValidatorSet = new Validator[](_validatorSet.length - numOfFelony);
     uint256 i = 0;
     for (uint index = 0; index < _validatorSet.length; index++) {
@@ -700,7 +713,6 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
 
     // step 2: clear maintain info of the validator
     validatorExtraSet[index].isMaintaining = false;
-    validatorExtraSet[index].enterMaintenanceHeight = 0;
 
     // step3: slash the validator
     (uint256 misdemeanorThreshold, uint256 felonyThreshold) = ISlashIndicator(SLASH_CONTRACT_ADDR).getSlashThresholds();
