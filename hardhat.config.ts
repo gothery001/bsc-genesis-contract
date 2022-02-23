@@ -38,7 +38,7 @@ export default {
     'bsc': {
       url: "https://bsc-dataseed1.ninicoin.io",
       accounts: {
-        mnemonic: process.env.BSC_TEST_MN ? process.env.BSC_TEST_MN : "",
+        mnemonic: "clock radar mass judge dismiss just intact mind resemble fringe diary casino",
       }
     },
   },
