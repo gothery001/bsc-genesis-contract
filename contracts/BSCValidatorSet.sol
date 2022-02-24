@@ -417,7 +417,18 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
   }
 
   function felony(address validator)external onlySlash override{
-    _felony(validator);
+    uint256 index = currentValidatorSetMap[_validator];
+    if (index <= 0) {
+      return;
+    }
+    // the actual index
+    index = index - 1;
+
+    if (validatorExtraSet[index].isMaintaining) {
+      numOfMaintaining--;
+    }
+
+    _felony(validator, index);
   }
 
   /*********************** For Temporary Maintenance **************************/
@@ -613,13 +624,7 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
     return index;
   }
 
-  function _felony(address validator) private {
-    uint256 index = currentValidatorSetMap[validator];
-    if (index <= 0) {
-      return;
-    }
-    // the actually index
-    index = index - 1;
+  function _felony(address validator, uint256 index) private {
     uint256 income = currentValidatorSet[index].incoming;
     uint256 rest = currentValidatorSet.length - 1;
     if (getValidators().length <= 1) {
@@ -682,6 +687,7 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
     }
 
     // 2. clear all maintain info
+    numOfMaintaining = 0;
     for (uint i = 0; i < currentValidatorSet.length; i++) {
       validatorExtraSet[i].isMaintaining = false;
       validatorExtraSet[i].enterMaintenanceHeight = 0;
@@ -731,7 +737,7 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
     (uint256 misdemeanorThreshold, uint256 felonyThreshold) = ISlashIndicator(SLASH_CONTRACT_ADDR).getSlashThresholds();
     isFelony = false;
     if (slashCount >= felonyThreshold) {
-      _felony(validator);
+      _felony(validator, index);
       ISlashIndicator(SLASH_CONTRACT_ADDR).sendFelonyPackage(validator);
       isFelony = true;
     } else if (slashCount >= misdemeanorThreshold) {
