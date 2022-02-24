@@ -79,9 +79,9 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
     uint256 incoming;
   }
 
-  // BEP-127 Temporary Maintenance
   struct ValidatorExtra {
-    uint256 enterMaintenanceHeight;     // the block number at which the validator enters Maintenance
+    // BEP-127 Temporary Maintenance
+    uint256 enterMaintenanceHeight;     // the height from where the validator enters Maintenance
     bool isMaintaining;
 
     // reserve for future use
