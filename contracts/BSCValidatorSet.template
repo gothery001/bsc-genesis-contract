@@ -563,6 +563,12 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
         currentValidatorSetMap[validatorSet[i].consensusAddress] = i+1;
       }
     }
+
+    // make sure all new validators are cleared maintainInfo
+    for (uint i = 0; i < currentValidatorSet.length; i++) {
+      validatorExtraSet[i].isMaintaining = false;
+      validatorExtraSet[i].enterMaintenanceHeight = 0;
+    }
   }
 
   function isSameValidator(Validator memory v1, Validator memory v2) private pure returns(bool) {
