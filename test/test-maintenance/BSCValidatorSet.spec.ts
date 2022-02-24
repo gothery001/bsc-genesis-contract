@@ -208,6 +208,7 @@ describe('BSCValidatorSet', () => {
     }
 
     expect(await validatorSet.getMaintainingValidators()).to.deep.eq([]);
+    expect(await validatorSet.numOfMaintaining()).to.be.eq(0);
 
   });
 
@@ -259,6 +260,7 @@ describe('BSCValidatorSet', () => {
         GOV_CHANNEL_ID
       );
     expect(await validatorSet.maintainSlashScale()).to.be.eq(BigNumber.from(govValue));
+    expect(await validatorSet.numOfMaintaining()).to.be.eq(0);
   });
 
   it('common case 1-2: validator-1 enterMaintenance', async () => {
@@ -273,6 +275,7 @@ describe('BSCValidatorSet', () => {
       validators[1],
       validators[2],
     ]);
+    expect(await validatorSet.numOfMaintaining()).to.be.eq(2);
   });
 
   it('common case 1-4: validator-3 misdemeanor, enterMaintenance', async () => {
@@ -289,6 +292,7 @@ describe('BSCValidatorSet', () => {
       validators[2],
       validators[3],
     ]);
+    expect(await validatorSet.numOfMaintaining()).to.be.eq(3);
   });
 
   it('common case 1-5: validator-2 exitMaintenance', async () => {
@@ -303,6 +307,7 @@ describe('BSCValidatorSet', () => {
       validators[1],
       validators[3],
     ]);
+    expect(await validatorSet.numOfMaintaining()).to.be.eq(2);
   });
 
   it('common case 1-6: validator-4 misdemeanor, enterMaintenance', async () => {
@@ -319,6 +324,7 @@ describe('BSCValidatorSet', () => {
       validators[3],
       validators[4],
     ]);
+    expect(await validatorSet.numOfMaintaining()).to.be.eq(3);
   });
 
   it('common case 1-7: validator-5 misdemeanor, enterMaintenance', async () => {
@@ -333,6 +339,8 @@ describe('BSCValidatorSet', () => {
       validators[4],
       validators[5],
     ]);
+    expect(await validatorSet.numOfMaintaining()).to.be.eq(4);
+
   });
 
   it('common case 1-8: validator-6 enterMaintenance', async () => {
@@ -346,12 +354,15 @@ describe('BSCValidatorSet', () => {
       validators[5],
       validators[6],
     ]);
+    expect(await validatorSet.numOfMaintaining()).to.be.eq(5);
+
   });
 
   it('common case 1-9: validator-7 enterMaintenance failed!', async () => {
     expect(validatorSet.connect(signers[7]).enterMaintenance()).to.be.revertedWith(
       'can not enter Temporary Maintenance'
     );
+    expect(await validatorSet.numOfMaintaining()).to.be.eq(5);
   });
 
   it('common case 1-10: validator-7 misdemeanor, enterMaintenance failed!', async () => {
@@ -369,6 +380,7 @@ describe('BSCValidatorSet', () => {
       validators[5],
       validators[6],
     ]);
+    expect(await validatorSet.numOfMaintaining()).to.be.eq(5);
   });
 
   it('common case 1-11: validator-1 exitMaintenance', async () => {
@@ -386,6 +398,7 @@ describe('BSCValidatorSet', () => {
       validators[5],
       validators[6],
     ]);
+    expect(await validatorSet.numOfMaintaining()).to.be.eq(4);
   });
 
   it('common case 1-12: validator-1 misdemeanor, enterMaintenance failed!', async () => {
@@ -403,6 +416,7 @@ describe('BSCValidatorSet', () => {
       validators[5],
       validators[6],
     ]);
+    expect(await validatorSet.numOfMaintaining()).to.be.eq(4);
   });
 
   it('common case 1-13: validator-8 enterMaintenance', async () => {
@@ -424,6 +438,7 @@ describe('BSCValidatorSet', () => {
       validators[6],
       validators[8],
     ]);
+    expect(await validatorSet.numOfMaintaining()).to.be.eq(5);
   });
 
   it('common case 1-14: validator-9 enterMaintenance failed!', async () => {
@@ -448,6 +463,7 @@ describe('BSCValidatorSet', () => {
       validators[6],
       validators[8],
     ]);
+    expect(await validatorSet.numOfMaintaining()).to.be.eq(5);
   });
 
   it('common case 1-16: validator-2 enterMaintenance failed!', async () => {
@@ -471,6 +487,7 @@ describe('BSCValidatorSet', () => {
       validators[6],
       validators[8],
     ]);
+    expect(await validatorSet.numOfMaintaining()).to.be.eq(4);
   });
 
   it('common case 1-18: validator-2 enterMaintenance failed!', async () => {
@@ -492,6 +509,7 @@ describe('BSCValidatorSet', () => {
       validators[6],
       validators[8],
     ]);
+    expect(await validatorSet.numOfMaintaining()).to.be.eq(4);
   });
 
   it('common case 1-20: validator-10 enterMaintenance', async () => {
@@ -511,6 +529,7 @@ describe('BSCValidatorSet', () => {
       validators[8],
       validators[10],
     ]);
+    expect(await validatorSet.numOfMaintaining()).to.be.eq(5);
   });
 
   it('common case 1-21: validator-3 exitMaintenance', async () => {
@@ -528,6 +547,7 @@ describe('BSCValidatorSet', () => {
       validators[8],
       validators[10],
     ]);
+    expect(await validatorSet.numOfMaintaining()).to.be.eq(4);
   });
 
   it('common case 1-22: validator-4 exitMaintenance', async () => {
@@ -550,6 +570,7 @@ describe('BSCValidatorSet', () => {
       validators[8],
       validators[10],
     ]);
+    expect(await validatorSet.numOfMaintaining()).to.be.eq(4);
 
     await waitTx(
       validatorSet.updateContractAddr(
@@ -581,6 +602,7 @@ describe('BSCValidatorSet', () => {
       .slice(2, 23)
       .filter((item) => item !== validators[5] && item !== validators[6]);
     expect(await validatorSet.getValidators()).to.deep.eq(expectedValidators);
+    expect(await validatorSet.numOfMaintaining()).to.be.eq(0);
 
     for (let i = 2; i < 23; i++) {
       if (i === 5 || i === 6) {
@@ -596,6 +618,24 @@ describe('BSCValidatorSet', () => {
       expect(validatorExtra.isMaintaining).to.be.eq(false);
       expect(validatorExtra.enterMaintenanceHeight.toNumber() === 0).to.be.eq(true);
     }
+    expect(await validatorSet.getMaintainingValidators()).to.deep.eq([]);
+  });
+
+
+  it('common case 1-25: query all view func', async () => {
+    expect(await validatorSet.maxNumOfMaintaining()).to.be.eq(maxNumOfMaintaining)
+    expect(await validatorSet.maintainSlashScale()).to.be.eq(maintainSlashScale)
+    expect(await validatorSet.numOfMaintaining()).to.be.eq(0);
+
+    for (let i = 2; i < 50; i++) {
+      if (i >= 2 && i < 23 && i !== 1 && i !== 5 && i !== 6) {
+        expect(await validatorSet.isCurrentValidator(validators[i])).to.deep.eq(true);
+      } else {
+        expect(await validatorSet.isCurrentValidator(validators[i])).to.deep.eq(false);
+      }
+      expect(await validatorSet.getIncoming(validators[i])).to.deep.eq(0);
+    }
+
     expect(await validatorSet.getMaintainingValidators()).to.deep.eq([]);
   });
 });
