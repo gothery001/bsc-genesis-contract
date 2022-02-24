@@ -565,6 +565,7 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
     }
 
     // make sure all new validators are cleared maintainInfo
+    // should not happen, still protect
     for (uint i = 0; i < currentValidatorSet.length; i++) {
       validatorExtraSet[i].isMaintaining = false;
       validatorExtraSet[i].enterMaintenanceHeight = 0;
