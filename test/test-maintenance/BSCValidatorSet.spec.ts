@@ -180,7 +180,7 @@ describe('BSCValidatorSet', () => {
 
   beforeEach('beforeEach', async () => {});
 
-  it('query basic info', async () => {
+  it('update validators', async () => {
     // do update validators
     let packageBytes = validatorUpdateRlpEncode(
       validators.slice(1, 22),
@@ -189,8 +189,26 @@ describe('BSCValidatorSet', () => {
     );
 
     await waitTx(validatorSet.connect(operator).handleSynPackage(STAKE_CHANNEL_ID, packageBytes));
+  });
 
+  it('query all view func', async () => {
     expect(await validatorSet.getValidators()).to.deep.eq(validators.slice(1, 22));
+    for (let i = 1; i < 50; i++) {
+      const currentValidatorSetIndex = i - 1
+      if (i >= 1 && i < 22) {
+        expect(await validatorSet.isWorkingValidator(currentValidatorSetIndex)).to.deep.eq(true);
+        expect(await validatorSet.isCurrentValidator(validators[i])).to.deep.eq(true);
+        expect(await validatorSet.canEnterMaintenance(validators[i])).to.deep.eq(false);
+      } else {
+        expect(await validatorSet.isWorkingValidator(currentValidatorSetIndex)).to.be.eq(false);
+        expect(await validatorSet.isCurrentValidator(validators[i])).to.deep.eq(false);
+        expect(await validatorSet.canEnterMaintenance(validators[i])).to.deep.eq(false);
+      }
+      expect(await validatorSet.getIncoming(validators[i])).to.deep.eq(0);
+    }
+
+    expect(await validatorSet.getMaintainingValidators()).to.deep.eq([]);
+
   });
 
   it('common case 1-1 update params', async () => {
@@ -565,7 +583,6 @@ describe('BSCValidatorSet', () => {
     expect(await validatorSet.getValidators()).to.deep.eq(expectedValidators);
 
     for (let i = 2; i < 23; i++) {
-      log(`validator-${i}`);
       if (i === 5 || i === 6) {
         // because of felony, validator-5,6 are not the current validators
         expect(validatorSet.getCurrentValidatorIndex(validators[i])).to.be.revertedWith(

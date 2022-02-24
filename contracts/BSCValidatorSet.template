@@ -369,6 +369,12 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
     if (index >= currentValidatorSet.length) {
       return false;
     }
+
+    // validatorExtraSet[index] should not be used before it has been init.
+    if (index >= validatorExtraSet.length) {
+      return !currentValidatorSet[index].jailed;
+    }
+
     return !currentValidatorSet[index].jailed && !validatorExtraSet[index].isMaintaining;
   }
 
@@ -565,6 +571,7 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
     }
 
     // make sure all new validators are cleared maintainInfo
+    // should not happen, still protect
     for (uint i = 0; i < currentValidatorSet.length; i++) {
       validatorExtraSet[i].isMaintaining = false;
       validatorExtraSet[i].enterMaintenanceHeight = 0;
@@ -708,7 +715,7 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
     }
 
     // step 0: modify numOfMaintaining
-    numOfMaintaining --;
+    numOfMaintaining--;
 
     // step 1: calculate slashCount
     uint256 slashCount =
