@@ -180,6 +180,12 @@ describe('BSCValidatorSet', () => {
 
   beforeEach('beforeEach', async () => {});
 
+  it('query code size', async () => {
+    const code = await ethers.provider.getCode(validatorSet.address)
+    const codeSize = (code.length - 2) / 2
+    log(`BSCValidatorSet Mock Template code size: ${codeSize}, UpperLimit: 24567` )
+  });
+
   it('update validators', async () => {
     // do update validators
     let packageBytes = validatorUpdateRlpEncode(
