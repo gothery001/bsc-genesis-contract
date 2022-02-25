@@ -714,7 +714,7 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
         .div(workingValidatorCount)
         .div(maintainSlashScale);
 
-    // step 2: clear maintain info of the validator
+    // step 2: clear maintaining info of the validator
     validatorExtraSet[index].isMaintaining = false;
 
     // step3: slash the validator
