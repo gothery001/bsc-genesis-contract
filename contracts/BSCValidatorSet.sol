@@ -421,11 +421,10 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
     // the actual index
     index = index - 1;
 
-    if (validatorExtraSet[index].isMaintaining) {
+    bool isMaintaining = validatorExtraSet[index].isMaintaining;
+    if (_felony(validator, index) && isMaintaining) {
       numOfMaintaining--;
     }
-
-    _felony(validator, index);
   }
 
   /*********************** For Temporary Maintenance **************************/
@@ -608,13 +607,13 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
     return index;
   }
 
-  function _felony(address validator, uint256 index) private {
+  function _felony(address validator, uint256 index) private returns (bool){
     uint256 income = currentValidatorSet[index].incoming;
     uint256 rest = currentValidatorSet.length - 1;
     if (getValidators().length <= 1) {
       // will not remove the validator if it is the only one validator.
       currentValidatorSet[index].incoming = 0;
-      return;
+      return false;
     }
     emit validatorFelony(validator, income);
 
@@ -638,6 +637,7 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
       }
     }
     // averageDistribute*rest may less than income, but it is ok, the dust income will go to system reward eventually.
+    return true;
   }
 
   function _forceMaintainingValidatorsExit(Validator[] memory _validatorSet) private returns (Validator[] memory unjailedValidatorSet){
@@ -691,7 +691,7 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
   }
 
   function _enterMaintenance(address validator, uint256 index) private {
-    numOfMaintaining ++;
+    numOfMaintaining++;
     validatorExtraSet[index].isMaintaining = true;
     validatorExtraSet[index].enterMaintenanceHeight = block.number;
     emit validatorEnterMaintenance(validator);
