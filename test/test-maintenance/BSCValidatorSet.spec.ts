@@ -634,7 +634,7 @@ describe('BSCValidatorSet', () => {
     expect(await validatorSet.numOfMaintaining()).to.be.eq(0);
 
     for (let i = 2; i < 50; i++) {
-      if (i >= 2 && i < 23 && i !== 1 && i !== 5 && i !== 6) {
+      if (i >= 2 && i < 23 && i !== 5 && i !== 6) {
         expect(await validatorSet.isCurrentValidator(validators[i])).to.deep.eq(true);
       } else {
         expect(await validatorSet.isCurrentValidator(validators[i])).to.deep.eq(false);
