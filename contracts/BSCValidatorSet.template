@@ -566,6 +566,7 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
 
     // make sure all new validators are cleared maintainInfo
     // should not happen, still protect
+    numOfMaintaining = 0;
     for (uint i = 0; i < currentValidatorSet.length; i++) {
       validatorExtraSet[i].isMaintaining = false;
       validatorExtraSet[i].enterMaintenanceHeight = 0;
@@ -670,14 +671,7 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
       }
     }
 
-    // 2. clear all maintain info
-    numOfMaintaining = 0;
-    for (uint i = 0; i < currentValidatorSet.length; i++) {
-      validatorExtraSet[i].isMaintaining = false;
-      validatorExtraSet[i].enterMaintenanceHeight = 0;
-    }
-
-    // 3. get unjailed validators from validatorSet
+    // 2. get unjailed validators from validatorSet
     unjailedValidatorSet = new Validator[](_validatorSet.length - numOfFelony);
     uint256 i = 0;
     for (uint index = 0; index < _validatorSet.length; index++) {
