@@ -557,11 +557,10 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
       }
     }
     if (m>n) {
+      ValidatorExtra memory validatorExtra;
       for (uint i = n;i<m;i++) {
         currentValidatorSet.push(validatorSet[i]);
-        validatorExtraSet.push(ValidatorExtra(0, false,
-          [uint256(0), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        ));
+        validatorExtraSet.push(validatorExtra);
         currentValidatorSetMap[validatorSet[i].consensusAddress] = i+1;
       }
     }
