@@ -727,6 +727,8 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
     } else if (slashCount >= misdemeanorThreshold) {
       _misdemeanor(validator);
     }
+
+    emit validatorExitMaintenance(validator);
   }
 
   //rlp encode & decode function
