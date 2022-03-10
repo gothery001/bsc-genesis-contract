@@ -14,3 +14,6 @@ artifacts
 
 types
 typechain-types
+
+private-keys-qa.json
+scripts/keystore

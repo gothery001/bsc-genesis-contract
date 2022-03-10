@@ -3,6 +3,19 @@ import 'hardhat-watcher'
 import 'hardhat-gas-reporter';
 import '@nomiclabs/hardhat-ethers';
 import '@nomiclabs/hardhat-waffle';
+import {existsSync} from "fs";
+
+const getQaValidatorsPrivateKeys = () => {
+    if (existsSync('./private-keys-qa.json')) {
+        const keyObj: any = require('./private-keys-qa.json');
+        const keyArray: string[] = []
+        Object.keys(keyObj).map((key: string) => {
+            keyArray.push(keyObj[key])
+        })
+        return keyArray
+    }
+    return [];
+}
 
 /**
  * @type import('hardhat/config').HardhatUserConfig
@@ -41,6 +54,10 @@ export default {
             accounts: {
                 mnemonic: "clock radar mass judge dismiss just intact mind resemble fringe diary casino",
             }
+        },
+        'qa': {
+            url: "http://172.22.41.197:8545",
+            accounts: getQaValidatorsPrivateKeys()
         }
     },
     watcher: {
