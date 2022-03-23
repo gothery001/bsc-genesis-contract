@@ -40,13 +40,13 @@ Run truffle test:
 ```shell script
 truffle compile
 truffle migrate
-truffle test
+truffle test  test/**.js
 ```
 
 Run hardhat test:
 ```shell script
 npx hardhat compile
-npx hardhat test  --network development 
+npx hardhat test  
 ```
 
 Flatten all system contracts:
