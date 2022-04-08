@@ -107,11 +107,11 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
   }
 
   modifier initValidatorExtraSet() {
-    uint256 len = currentValidatorSet.length;
-    if (len == 0) {
+    uint256 validatorsNum = currentValidatorSet.length;
+    if (validatorsNum == 0) {
       ValidatorExtra memory validatorExtra;
       // init validatorExtraSet
-      for (uint i; i < len; ++i) {
+      for (uint i; i < validatorsNum; ++i) {
         validatorExtraSet.push(validatorExtra);
       }
     }
@@ -261,8 +261,8 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
     //step 1: do calculate distribution, do not make it as an internal function for saving gas.
     uint crossSize;
     uint directSize;
-    uint len = currentValidatorSet.length;
-    for (uint i; i < len; ++i) {
+    uint validatorsNum = currentValidatorSet.length;
+    for (uint i; i < validatorsNum; ++i) {
       if (currentValidatorSet[i].incoming >= DUSTY_INCOMING) {
         crossSize ++;
       } else if (currentValidatorSet[i].incoming > 0) {
@@ -286,7 +286,7 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
       emit failReasonWithStr("fee is larger than DUSTY_INCOMING");
       return ERROR_RELAYFEE_TOO_LARGE;
     }
-    for (uint i; i < len; ++i) {
+    for (uint i; i < validatorsNum; ++i) {
       if (currentValidatorSet[i].incoming >= DUSTY_INCOMING) {
         crossAddrs[crossSize] = currentValidatorSet[i].BBCFeeAddress;
         uint256 value = currentValidatorSet[i].incoming - currentValidatorSet[i].incoming % PRECISION;
