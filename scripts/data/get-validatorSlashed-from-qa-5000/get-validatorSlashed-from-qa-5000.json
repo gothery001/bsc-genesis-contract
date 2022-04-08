@@ -1,0 +1,188 @@
+{
+  "name": "get-validatorSlashed-from-qa-5000",
+  "fromBlock": 7000000,
+  "endBlock": 16333034,
+  "currentBlock": 7095000,
+  "result": [
+    {
+      "eventName": "validatorSlashed(address)",
+      "validator": "0x70F657164e5b75689b64B7fd1fA275F334f28e18",
+      "time": "12:20:33 PM",
+      "res": {
+        "eventFragment": {
+          "name": "validatorSlashed",
+          "anonymous": false,
+          "inputs": [
+            {
+              "name": "validator",
+              "type": "address",
+              "indexed": true,
+              "components": null,
+              "arrayLength": null,
+              "arrayChildren": null,
+              "baseType": "address",
+              "_isParamType": true
+            }
+          ],
+          "type": "event",
+          "_isFragment": true
+        },
+        "name": "validatorSlashed",
+        "signature": "validatorSlashed(address)",
+        "topic": "0xddb6012116e51abf5436d956a4f0ebd927e92c576ff96d7918290c8782291e3e",
+        "args": [
+          "0x70F657164e5b75689b64B7fd1fA275F334f28e18"
+        ]
+      },
+      "eventlog": {
+        "blockNumber": 7091286,
+        "blockHash": "0x62023dd0c00f13085dc9fbad1191ce9a0aa7f5cbe49c9b3557c039fe81bbfb09",
+        "transactionIndex": 278,
+        "removed": false,
+        "address": "0x0000000000000000000000000000000000001001",
+        "data": "0x",
+        "topics": [
+          "0xddb6012116e51abf5436d956a4f0ebd927e92c576ff96d7918290c8782291e3e",
+          "0x00000000000000000000000070f657164e5b75689b64b7fd1fa275f334f28e18"
+        ],
+        "transactionHash": "0x5b870c7f132eee01e471be224e81274b7430e4158647cd02ddc43db69e06566a",
+        "logIndex": 1090
+      }
+    },
+    {
+      "eventName": "validatorSlashed(address)",
+      "validator": "0x70F657164e5b75689b64B7fd1fA275F334f28e18",
+      "time": "12:21:49 PM",
+      "res": {
+        "eventFragment": {
+          "name": "validatorSlashed",
+          "anonymous": false,
+          "inputs": [
+            {
+              "name": "validator",
+              "type": "address",
+              "indexed": true,
+              "components": null,
+              "arrayLength": null,
+              "arrayChildren": null,
+              "baseType": "address",
+              "_isParamType": true
+            }
+          ],
+          "type": "event",
+          "_isFragment": true
+        },
+        "name": "validatorSlashed",
+        "signature": "validatorSlashed(address)",
+        "topic": "0xddb6012116e51abf5436d956a4f0ebd927e92c576ff96d7918290c8782291e3e",
+        "args": [
+          "0x70F657164e5b75689b64B7fd1fA275F334f28e18"
+        ]
+      },
+      "eventlog": {
+        "blockNumber": 7091307,
+        "blockHash": "0xd33523431385bbb4d8074f2cdfd6b8473db3dd7f1dd4a4aaf94b3b2c8e7f6782",
+        "transactionIndex": 332,
+        "removed": false,
+        "address": "0x0000000000000000000000000000000000001001",
+        "data": "0x",
+        "topics": [
+          "0xddb6012116e51abf5436d956a4f0ebd927e92c576ff96d7918290c8782291e3e",
+          "0x00000000000000000000000070f657164e5b75689b64b7fd1fa275f334f28e18"
+        ],
+        "transactionHash": "0x8b73d9c6ea857ab144701eb742a149921e5ce1111336a5d394002d947a8d9831",
+        "logIndex": 613
+      }
+    },
+    {
+      "eventName": "validatorSlashed(address)",
+      "validator": "0x7AE2F5B9e386cd1B50A4550696D957cB4900f03a",
+      "time": "1:51:37 PM",
+      "res": {
+        "eventFragment": {
+          "name": "validatorSlashed",
+          "anonymous": false,
+          "inputs": [
+            {
+              "name": "validator",
+              "type": "address",
+              "indexed": true,
+              "components": null,
+              "arrayLength": null,
+              "arrayChildren": null,
+              "baseType": "address",
+              "_isParamType": true
+            }
+          ],
+          "type": "event",
+          "_isFragment": true
+        },
+        "name": "validatorSlashed",
+        "signature": "validatorSlashed(address)",
+        "topic": "0xddb6012116e51abf5436d956a4f0ebd927e92c576ff96d7918290c8782291e3e",
+        "args": [
+          "0x7AE2F5B9e386cd1B50A4550696D957cB4900f03a"
+        ]
+      },
+      "eventlog": {
+        "blockNumber": 7093094,
+        "blockHash": "0x8cf4c3221636d1020ea605c3187a5f37be92e937c7bfc6c9eaf932481d8ad028",
+        "transactionIndex": 126,
+        "removed": false,
+        "address": "0x0000000000000000000000000000000000001001",
+        "data": "0x",
+        "topics": [
+          "0xddb6012116e51abf5436d956a4f0ebd927e92c576ff96d7918290c8782291e3e",
+          "0x0000000000000000000000007ae2f5b9e386cd1b50a4550696d957cb4900f03a"
+        ],
+        "transactionHash": "0xd8171cee45132b51fa0af7217e5081e945c3b07a977d91038c8d2c2631498415",
+        "logIndex": 559
+      }
+    },
+    {
+      "eventName": "validatorSlashed(address)",
+      "validator": "0x7AE2F5B9e386cd1B50A4550696D957cB4900f03a",
+      "time": "1:52:49 PM",
+      "res": {
+        "eventFragment": {
+          "name": "validatorSlashed",
+          "anonymous": false,
+          "inputs": [
+            {
+              "name": "validator",
+              "type": "address",
+              "indexed": true,
+              "components": null,
+              "arrayLength": null,
+              "arrayChildren": null,
+              "baseType": "address",
+              "_isParamType": true
+            }
+          ],
+          "type": "event",
+          "_isFragment": true
+        },
+        "name": "validatorSlashed",
+        "signature": "validatorSlashed(address)",
+        "topic": "0xddb6012116e51abf5436d956a4f0ebd927e92c576ff96d7918290c8782291e3e",
+        "args": [
+          "0x7AE2F5B9e386cd1B50A4550696D957cB4900f03a"
+        ]
+      },
+      "eventlog": {
+        "blockNumber": 7093115,
+        "blockHash": "0x8b132e8214608f327ee312f534345d948a1731b5965e80cd77ec2cce35db3a78",
+        "transactionIndex": 298,
+        "removed": false,
+        "address": "0x0000000000000000000000000000000000001001",
+        "data": "0x",
+        "topics": [
+          "0xddb6012116e51abf5436d956a4f0ebd927e92c576ff96d7918290c8782291e3e",
+          "0x0000000000000000000000007ae2f5b9e386cd1b50a4550696d957cb4900f03a"
+        ],
+        "transactionHash": "0xba0413e4b1476ceceeca925acd2ea1918e99fdb9aaf574398d663d9aa3867af8",
+        "logIndex": 1124
+      }
+    }
+  ]
+}

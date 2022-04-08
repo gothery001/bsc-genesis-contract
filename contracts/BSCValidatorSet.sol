@@ -372,7 +372,7 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
   }
 
   function getMiningValidators() public view returns(address[] memory) {
-    uint256 _maxNumOfWorkingCandidates = maxNumOfWorkingCandidates;
+    uint256  _maxNumOfWorkingCandidates = maxNumOfWorkingCandidates;
     uint256 _numOfCabinets = numOfCabinets;
     if (_numOfCabinets == 0 ){
       _numOfCabinets = INIT_NUM_OF_CABINETS;
@@ -386,6 +386,8 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
     if ((validators.length - _numOfCabinets) < _maxNumOfWorkingCandidates){
       _maxNumOfWorkingCandidates = validators.length - _numOfCabinets;
     }
+
+    // _numOfCabinets == 7,  _maxNumOfWorkingCandidates == 0
     if (_maxNumOfWorkingCandidates > 0) {
       uint256 epochNumber = block.number / EPOCH;
       shuffle(validators, epochNumber, _numOfCabinets-_maxNumOfWorkingCandidates, 0, _maxNumOfWorkingCandidates, _numOfCabinets);

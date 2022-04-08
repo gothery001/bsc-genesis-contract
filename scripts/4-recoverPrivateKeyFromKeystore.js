@@ -1,6 +1,4 @@
-const fs = require('fs');
 const keythereum = require('keythereum');
-const { ethers } = require('hardhat');
 const log = console.log.bind(console);
 
 const keys = require('./keystore/keys.json');
