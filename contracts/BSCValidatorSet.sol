@@ -493,7 +493,7 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
       || (maxNumOfMaintaining == 0 || maintainSlashScale == 0)      // - 1. check if not start
       || numOfMaintaining >= maxNumOfMaintaining                    // - 2. check if reached upper limit
       || !isWorkingValidator(index)                                 // - 3. check if not working(not jailed and not maintaining)
-      || validatorExtraSet[index].enterMaintenanceHeight > 0        // - 5. check if has Maintained during one 24-hour period
+      || validatorExtraSet[index].enterMaintenanceHeight > 0        // - 5. check if has Maintained during current 24-hour period
       || getValidators().length <= 1                                // - 6. check num of remaining working validators
     ) {
       return false;
