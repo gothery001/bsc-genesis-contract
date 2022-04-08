@@ -749,7 +749,7 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
     // 2. get unjailed validators from validatorSet
     unjailedValidatorSet = new Validator[](_validatorSet.length - numOfFelony);
     i = 0;
-    for (uint index = 0; index < _validatorSet.length; ++index) {
+    for (uint index; index < _validatorSet.length; ++index) {
       if (!_validatorSet[index].jailed) {
         unjailedValidatorSet[i] = _validatorSet[index];
         i++;
@@ -818,7 +818,7 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
       } else if (idx == 1) {
         RLPDecode.RLPItem[] memory items = iter.next().toList();
         validatorSetPkg.validatorSet =new Validator[](items.length);
-        for (uint j = 0;j<items.length;++j) {
+        for (uint j;j<items.length;++j) {
           (Validator memory val, bool ok) = decodeValidator(items[j]);
           if (!ok) {
             return (validatorSetPkg, false);
