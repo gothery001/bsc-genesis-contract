@@ -737,7 +737,7 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
       }
 
       // record the jailed validator in validatorSet
-      for (uint k = 0; k < _validatorSet.length; ++k) {
+      for (uint k; k < _validatorSet.length; ++k) {
         if (_validatorSet[k].consensusAddress == validator) {
           _validatorSet[k].jailed = true;
           numOfFelony++;
