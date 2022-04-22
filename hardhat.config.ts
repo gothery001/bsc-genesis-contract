@@ -55,8 +55,12 @@ export default {
                 mnemonic: "clock radar mass judge dismiss just intact mind resemble fringe diary casino",
             }
         },
-        'qa': {
+        'qa-197': {
             url: "http://172.22.41.197:8545",
+            accounts: getQaValidatorsPrivateKeys()
+        },
+        'qa-144': {
+            url: "http://172.22.41.144:8545",
             accounts: getQaValidatorsPrivateKeys()
         }
     },

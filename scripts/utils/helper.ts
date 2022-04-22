@@ -7,6 +7,7 @@ export const toHuman = (x: BigNumber, fractionDigits = 2) => {
 
 export async function waitTx(txRequest: Promise<ContractTransaction>): Promise<ContractReceipt> {
     const txResponse = await txRequest;
+    console.log(`Waiting for tx ${txResponse.hash} to be mined...`);
     return await txResponse.wait(1);
 }
 
