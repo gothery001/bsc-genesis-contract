@@ -3,6 +3,7 @@ import 'hardhat-watcher'
 import 'hardhat-gas-reporter';
 import '@nomiclabs/hardhat-ethers';
 import '@nomiclabs/hardhat-waffle';
+import '@tenderly/hardhat-tenderly';
 import {existsSync} from "fs";
 
 const getQaValidatorsPrivateKeys = () => {
