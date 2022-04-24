@@ -644,4 +644,114 @@ describe('BSCValidatorSet', () => {
 
     expect(await validatorSet.getMaintainingValidators()).to.deep.eq([]);
   });
+
+
+    it('common case 2-1 update params', async () => {
+        await waitTx(
+            govHub.updateContractAddr(
+                instances[10].address,
+                instances[8].address,
+                instances[3].address,
+                instances[4].address,
+                instances[5].address,
+                instances[0].address,
+                instances[7].address,
+                instances[9].address,
+                instances[6].address,
+                instances[2].address
+            )
+        );
+
+        //  set maxNumOfMaintaining to 5
+        let govChannelSeq = await crosschain.channelReceiveSequenceMap(GOV_CHANNEL_ID);
+        maxNumOfMaintaining = 18;
+        let govValue = '0x0000000000000000000000000000000000000000000000000000000000000012'; // 18
+        let govPackageBytes = serializeGovPack('maxNumOfMaintaining', govValue, validatorSet.address);
+        await crosschain
+            .connect(operator)
+            .handlePackage(
+                Buffer.concat([buildSyncPackagePrefix(2e16), govPackageBytes]),
+                proof,
+                merkleHeight,
+                govChannelSeq,
+                GOV_CHANNEL_ID
+            );
+        expect(await validatorSet.maxNumOfMaintaining()).to.be.eq(BigNumber.from(govValue));
+
+        //  set maintainSlashScale to 2
+        govChannelSeq = await crosschain.channelReceiveSequenceMap(GOV_CHANNEL_ID);
+        maintainSlashScale = 1;
+        govValue = '0x0000000000000000000000000000000000000000000000000000000000000001'; // 1
+        govPackageBytes = serializeGovPack('maintainSlashScale', govValue, validatorSet.address);
+        await crosschain
+            .connect(operator)
+            .handlePackage(
+                Buffer.concat([buildSyncPackagePrefix(2e16), govPackageBytes]),
+                proof,
+                merkleHeight,
+                govChannelSeq,
+                GOV_CHANNEL_ID
+            );
+        expect(await validatorSet.maintainSlashScale()).to.be.eq(BigNumber.from(govValue));
+        expect(await validatorSet.numOfMaintaining()).to.be.eq(0);
+    });
+
+
+    it('common case 2-2: validator-10 enterMaintenance', async () => {
+        await setSlashIndicator(slashIndicator.address, validatorSet, instances);
+
+        for (let i = 2; i < 22; i++) {
+            if (i === 5 || i === 6) continue;
+            await waitTx(validatorSet.connect(signers[i]).enterMaintenance());
+        }
+
+        const expectedMaintainingValidators = []
+
+        for (let i = 2; i < 22; i++) {
+            if (i === 5 || i === 6) continue;
+            const index = await validatorSet.getCurrentValidatorIndex(validators[i]);
+            const validatorExtra = await validatorSet.validatorExtraSet(index);
+            expect(validatorExtra.isMaintaining).to.be.eq(true);
+            expect(validatorExtra.enterMaintenanceHeight.toNumber() > 0).to.be.eq(true);
+            expectedMaintainingValidators.push(validators[i]);
+        }
+
+        expect(await validatorSet.getMaintainingValidators()).to.deep.eq(expectedMaintainingValidators);
+        expect(await validatorSet.numOfMaintaining()).to.be.eq(18);
+    });
+
+    it('common case 2-3: after some blocks, update validator set', async () => {
+        const currentWorkingValidators = (await validatorSet.getValidators()).length;
+        await mineBlocks(currentWorkingValidators * 150 * maintainSlashScale);
+
+        await waitTx(
+            validatorSet.updateContractAddr(
+                instances[10].address,
+                instances[8].address,
+                instances[3].address,
+                instances[4].address,
+                instances[5].address,
+                instances[0].address,
+                instances[7].address,
+                instances[9].address,
+                instances[6].address,
+                operator.address
+            )
+        );
+
+        // do update validators
+        let packageBytes = validatorUpdateRlpEncode(
+            validators.slice(5, 26),
+            validators.slice(5, 26),
+            validators.slice(5, 26),
+        );
+        await waitTx(validatorSet.connect(operator).handleSynPackage(STAKE_CHANNEL_ID, packageBytes));
+
+        // validator-5,6 felony,  validator-8 misdemeanor
+        const expectedValidators = validators.slice(23, 26)
+
+        expect(await validatorSet.getValidators()).to.deep.eq(expectedValidators);
+        expect(await validatorSet.numOfMaintaining()).to.be.eq(0);
+    });
+
 });
