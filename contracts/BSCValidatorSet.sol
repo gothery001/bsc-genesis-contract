@@ -730,6 +730,8 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
 
     // 1. validators exit maintenance
     uint256 i;
+    // caution: it must calculate workingValidatorCount before _exitMaintenance loop
+    // because the workingValidatorCount will be changed in _exitMaintenance
     uint256 workingValidatorCount = getWorkingValidatorCount();
     // caution: it must loop from the endIndex to startIndex in currentValidatorSet
     // because the validators order in currentValidatorSet may be changed by _felony(validator)
