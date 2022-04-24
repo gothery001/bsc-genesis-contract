@@ -697,18 +697,45 @@ describe('BSCValidatorSet', () => {
     });
 
 
-    it('common case 2-2: validator-10 enterMaintenance', async () => {
+    it('common case 2-2: validator 7 ~ 10 enterMaintenance', async () => {
         await setSlashIndicator(slashIndicator.address, validatorSet, instances);
 
-        for (let i = 2; i < 22; i++) {
-            if (i === 5 || i === 6) continue;
+        for (let i = 7; i < 10; i++) {
             await waitTx(validatorSet.connect(signers[i]).enterMaintenance());
         }
 
         const expectedMaintainingValidators = []
 
-        for (let i = 2; i < 22; i++) {
-            if (i === 5 || i === 6) continue;
+        for (let i = 7; i < 10; i++) {
+            const index = await validatorSet.getCurrentValidatorIndex(validators[i]);
+            const validatorExtra = await validatorSet.validatorExtraSet(index);
+            expect(validatorExtra.isMaintaining).to.be.eq(true);
+            expect(validatorExtra.enterMaintenanceHeight.toNumber() > 0).to.be.eq(true);
+            expectedMaintainingValidators.push(validators[i]);
+        }
+
+
+        expect(await validatorSet.getMaintainingValidators()).to.deep.eq(expectedMaintainingValidators);
+        expect(await validatorSet.numOfMaintaining()).to.be.eq(3);
+
+        const felonyThreshold = (await slashIndicator.felonyThreshold()).toNumber();
+        await mineBlocks( 4 * felonyThreshold * maintainSlashScale / 2);
+    });
+
+
+    it('common case 2-3: validator 10 ~ 21 enterMaintenance', async () => {
+        await setSlashIndicator(slashIndicator.address, validatorSet, instances);
+
+        for (let i = 10; i < 22; i++) {
+            await waitTx(validatorSet.connect(signers[i]).enterMaintenance());
+        }
+
+        const expectedMaintainingValidators = []
+        for (let i = 7; i < 10; i++) {
+            expectedMaintainingValidators.push(validators[i]);
+        }
+
+        for (let i = 10; i < 22; i++) {
             const index = await validatorSet.getCurrentValidatorIndex(validators[i]);
             const validatorExtra = await validatorSet.validatorExtraSet(index);
             expect(validatorExtra.isMaintaining).to.be.eq(true);
@@ -717,13 +744,13 @@ describe('BSCValidatorSet', () => {
         }
 
         expect(await validatorSet.getMaintainingValidators()).to.deep.eq(expectedMaintainingValidators);
-        expect(await validatorSet.numOfMaintaining()).to.be.eq(18);
+        expect(await validatorSet.numOfMaintaining()).to.be.eq(15);
+
+        const felonyThreshold = (await slashIndicator.felonyThreshold()).toNumber();
+        await mineBlocks( 4 * felonyThreshold * maintainSlashScale / 2 + 1);
     });
 
-    it('common case 2-3: after some blocks, update validator set', async () => {
-        const currentWorkingValidators = (await validatorSet.getValidators()).length;
-        await mineBlocks(currentWorkingValidators * 150 * maintainSlashScale);
-
+    it('common case 2-4: update validator set', async () => {
         await waitTx(
             validatorSet.updateContractAddr(
                 instances[10].address,
@@ -747,8 +774,8 @@ describe('BSCValidatorSet', () => {
         );
         await waitTx(validatorSet.connect(operator).handleSynPackage(STAKE_CHANNEL_ID, packageBytes));
 
-        // validator-5,6 felony,  validator-8 misdemeanor
-        const expectedValidators = validators.slice(23, 26)
+        // validator 7 ~ 9 will be felony, their slashCount =  4 * felonyThreshold * maintainSlashScale
+        const expectedValidators: string[] = [validators[5], validators[6]].concat(validators.slice(10, 26));
 
         expect(await validatorSet.getValidators()).to.deep.eq(expectedValidators);
         expect(await validatorSet.numOfMaintaining()).to.be.eq(0);
