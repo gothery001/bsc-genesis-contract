@@ -774,7 +774,7 @@ describe('BSCValidatorSet', () => {
         );
         await waitTx(validatorSet.connect(operator).handleSynPackage(STAKE_CHANNEL_ID, packageBytes));
 
-        // validator 7 ~ 9 will be felony, their slashCount =  4 * felonyThreshold * maintainSlashScale
+        // validator 7 ~ 9 will be felony, their slashCount =  4 * felonyThreshold * maintainSlashScale / workingValidatorCount(4)
         const expectedValidators: string[] = [validators[5], validators[6]].concat(validators.slice(10, 26));
 
         expect(await validatorSet.getValidators()).to.deep.eq(expectedValidators);
