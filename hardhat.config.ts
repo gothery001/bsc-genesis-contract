@@ -81,5 +81,8 @@ export default {
         cache: "./cache",
         artifacts: "./artifacts"
     },
+    gasReporter: {
+        enabled: (process.env.REPORT_GAS) ? true : false
+    }
 };
 
