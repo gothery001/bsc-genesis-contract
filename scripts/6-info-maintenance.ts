@@ -20,6 +20,10 @@ const init = async () => {
         SYSTEM_CONTRACT_ADDRESS.ValidatorContract
     )) as BSCValidatorSet;
 
+
+    const blockNumber = await ethers.provider.getBlockNumber()
+    log('blockNumber:', blockNumber);
+
     const workingValidatorCount = await bscValidatorSet.getWorkingValidatorCount();
     log('workingValidatorCount:', workingValidatorCount);
 };
