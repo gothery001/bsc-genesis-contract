@@ -5,6 +5,7 @@ import '@nomiclabs/hardhat-ethers';
 import '@nomiclabs/hardhat-waffle';
 import '@tenderly/hardhat-tenderly';
 import {existsSync} from "fs";
+import 'dotenv/config';
 
 const getQaValidatorsPrivateKeys = () => {
     if (existsSync('./private-keys-qa.json')) {
@@ -51,7 +52,8 @@ export default {
             }
         },
         'bsc': {
-            url: "https://bsc-dataseed1.ninicoin.io",
+            // url: "https://bsc-dataseed1.ninicoin.io",
+            url: process.env.AP,
             accounts: {
                 mnemonic: "clock radar mass judge dismiss just intact mind resemble fringe diary casino",
             }
@@ -63,6 +65,15 @@ export default {
         'qa-144': {
             url: "http://172.22.41.144:8545",
             accounts: getQaValidatorsPrivateKeys()
+        },
+        'testnet': {
+            url: "https://data-seed-prebsc-1-s1.binance.org:8545/",
+            // url: "https://data-seed-prebsc-2-s1.binance.org:8545/",
+            // url: "https://data-seed-prebsc-1-s2.binance.org:8545/",
+            // url: "https://data-seed-prebsc-2-s2.binance.org:8545/",
+            accounts: [
+                process.env.BSC_TESTNET_SK
+            ]
         }
     },
     watcher: {

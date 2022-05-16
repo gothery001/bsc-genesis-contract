@@ -12,7 +12,7 @@ const addressToBytes32 = (address: string) => {
 
 // 0. config toAddress and event abi
 const interval = process.env.INTERVAL ? parseInt(process.env.INTERVAL) : 5000;
-const name = `get-validatorFelony-from-qa-${interval}`;
+const name = `get-validatorFelony-from-bsc-${interval}`;
 
 const ContractAddress = SYSTEM_CONTRACT_ADDRESS.ValidatorContract
 const abi = ['event validatorFelony(address indexed validator, uint256 amount)'];
@@ -23,8 +23,8 @@ const eventSigHash = ethers.utils.keccak256(
     ethers.utils.toUtf8Bytes(eventName)
 );
 
-const startBlockNumber = 241210;
-const endBlockNumber = 241212;
+const startBlockNumber = 17703161;
+const endBlockNumber = 17763161;
 const topics: (string | null)[] = [
     eventSigHash,
 ];

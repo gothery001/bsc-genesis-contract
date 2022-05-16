@@ -1,0 +1,67 @@
+{
+  "name": "get-validatorFelony-from-bsc-5000",
+  "fromBlock": 17703161,
+  "endBlock": 17763438,
+  "currentBlock": 17713161,
+  "result": [
+    {
+      "eventName": "validatorFelony(address,uint256)",
+      "validator": "0x2465176C461AfB316ebc773C61fAEe85A6515DAA",
+      "time": "6:56:01 PM",
+      "res": {
+        "eventFragment": {
+          "name": "validatorFelony",
+          "anonymous": false,
+          "inputs": [
+            {
+              "name": "validator",
+              "type": "address",
+              "indexed": true,
+              "components": null,
+              "arrayLength": null,
+              "arrayChildren": null,
+              "baseType": "address",
+              "_isParamType": true
+            },
+            {
+              "name": "amount",
+              "type": "uint256",
+              "indexed": null,
+              "components": null,
+              "arrayLength": null,
+              "arrayChildren": null,
+              "baseType": "uint256",
+              "_isParamType": true
+            }
+          ],
+          "type": "event",
+          "_isFragment": true
+        },
+        "name": "validatorFelony",
+        "signature": "validatorFelony(address,uint256)",
+        "topic": "0x3b6f9ef90462b512a1293ecec018670bf7b7f1876fb727590a8a6d7643130a70",
+        "args": [
+          "0x2465176C461AfB316ebc773C61fAEe85A6515DAA",
+          {
+            "type": "BigNumber",
+            "hex": "0x00"
+          }
+        ]
+      },
+      "eventlog": {
+        "blockNumber": 17708628,
+        "blockHash": "0xda4da0574892520413938a52de20c0e48c7dececf270ad75a82c8be81e4639d3",
+        "transactionIndex": 105,
+        "removed": false,
+        "address": "0x0000000000000000000000000000000000001000",
+        "data": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "topics": [
+          "0x3b6f9ef90462b512a1293ecec018670bf7b7f1876fb727590a8a6d7643130a70",
+          "0x0000000000000000000000002465176c461afb316ebc773c61faee85a6515daa"
+        ],
+        "transactionHash": "0x97c23ace59629010b27991d2772166e90bd6583501e8a1296b97612ed8f0119e",
+        "logIndex": 308
+      }
+    }
+  ]
+}

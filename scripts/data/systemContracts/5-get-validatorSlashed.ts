@@ -12,7 +12,7 @@ const addressToBytes32 = (address: string) => {
 
 // 0. config toAddress and event abi
 const interval = process.env.INTERVAL ? parseInt(process.env.INTERVAL) : 5000;
-const name = `get-validatorSlashed-from-qa-${interval}`;
+const name = `get-validatorSlashed-from-preview-${interval}`;
 
 const ContractAddress = SYSTEM_CONTRACT_ADDRESS.SlashContract
 const abi = ['event validatorSlashed(address indexed validator)'];
@@ -23,8 +23,8 @@ const eventSigHash = ethers.utils.keccak256(
     ethers.utils.toUtf8Bytes(eventName)
 );
 
-const startBlockNumber = 7000000;
-const endBlockNumber = 12000000;
+const startBlockNumber = 19203500;
+const endBlockNumber = 19203700;
 const topics: (string | null)[] = [
     eventSigHash,
 ];

@@ -23,11 +23,11 @@ const init = async () => {
     const validators = await bscValidatorSet.getValidators();
     log('validators:', validators);
 
-
-    const i = 1;
-
+    const i = 0;
     const validator = signers[i].address;
     log('before-------------', validator)
+
+    log('numOfJailed', await bscValidatorSet.numOfJailed())
 
     let index = await bscValidatorSet.getCurrentValidatorIndex(validator)
     // let info = await bscValidatorSet.currentValidatorSet(index)
@@ -37,9 +37,12 @@ const init = async () => {
     const blockNumber =  await ethers.provider.getBlockNumber()
     log('blockNumber', blockNumber)
 
+/*
+
     await waitTx(bscValidatorSet.connect(signers[i]).enterMaintenance({
         // nonce: 670
     }));
+*/
 
     while (true) {
         const blockNumber =  await ethers.provider.getBlockNumber()
@@ -53,13 +56,6 @@ const init = async () => {
         )
         log('----------------------------------------------------------------------------------------------------------')
         await sleep(1)
-
-        if (!extraInfo.isMaintaining) {
-            await waitTx(bscValidatorSet.connect(signers[i]).enterMaintenance({
-                // nonce: 670
-            }));
-            log(`!!!! enterMaintenance !!!!`, blockNumber)
-        }
     }
 };
 

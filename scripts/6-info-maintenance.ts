@@ -1,6 +1,6 @@
 import { BSCValidatorSet } from '../typechain-types';
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
-import { waitTx } from './utils/helper';
+import {toHuman, waitTx} from './utils/helper';
 import { SYSTEM_CONTRACT_ADDRESS } from './utils/constants';
 const { ethers } = require('hardhat');
 const log = console.log;
@@ -14,6 +14,8 @@ const enterMaintenance = async (signer: SignerWithAddress) => {
 
 const init = async () => {
     let signers = await ethers.getSigners();
+    operator = signers[0];
+    log('operator', operator.address, toHuman(await ethers.provider.getBalance(operator.address)));
 
     bscValidatorSet = (await ethers.getContractAt(
         'BSCValidatorSet',
