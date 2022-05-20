@@ -2,7 +2,7 @@ const keythereum = require('keythereum');
 const log = console.log.bind(console);
 
 const keys = require('./keystore/keys-preview.json');
-const passwords = require('./keystore/p1.json');
+const passwords = require('./keystore/password-preview.json');
 
 /*
 *

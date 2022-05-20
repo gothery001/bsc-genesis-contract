@@ -28,6 +28,11 @@ const init = async () => {
 
     const workingValidatorCount = await bscValidatorSet.getWorkingValidatorCount();
     log('workingValidatorCount:', workingValidatorCount);
+
+    const index = await bscValidatorSet.getCurrentValidatorIndex('0xA2959D3F95eAe5dC7D70144Ce1b73b403b7EB6E0')
+    const extra = await bscValidatorSet.validatorExtraSet(index)
+    log('index:', index.toNumber());
+    log('extra:', extra);
 };
 
 const main = async () => {

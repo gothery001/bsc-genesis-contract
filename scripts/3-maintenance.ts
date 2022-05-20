@@ -37,12 +37,11 @@ const init = async () => {
     const blockNumber =  await ethers.provider.getBlockNumber()
     log('blockNumber', blockNumber)
 
-/*
 
     await waitTx(bscValidatorSet.connect(signers[i]).enterMaintenance({
         // nonce: 670
     }));
-*/
+
 
     while (true) {
         const blockNumber =  await ethers.provider.getBlockNumber()

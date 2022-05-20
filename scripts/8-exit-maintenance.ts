@@ -24,7 +24,7 @@ const init = async () => {
     log('validators:', validators);
 
 
-    const i = 2;
+    const i = 1;
 
     const validator = signers[i].address;
     log('before-------------', validator)
@@ -36,9 +36,15 @@ const init = async () => {
     log(index.toNumber(), `extraInfo ${validator}:`, extraInfo, isWorking)
     const blockNumber =  await ethers.provider.getBlockNumber()
     log('blockNumber', blockNumber)
+
+    let workingValidatorCount = await bscValidatorSet.getWorkingValidatorCount()
+    log('workingValidatorCount', workingValidatorCount)
     await waitTx(bscValidatorSet.connect(signers[i]).exitMaintenance({
         // nonce: 670
     }));
+
+    workingValidatorCount = await bscValidatorSet.getWorkingValidatorCount()
+    log('workingValidatorCount', workingValidatorCount)
 
     while (true) {
         const blockNumber =  await ethers.provider.getBlockNumber()
