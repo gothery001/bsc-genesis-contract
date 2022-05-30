@@ -24,7 +24,7 @@ const init = async () => {
     log('validators:', validators);
 
 
-    const i = 1;
+    const i = 0;
 
     const validator = signers[i].address;
     log('before-------------', validator)

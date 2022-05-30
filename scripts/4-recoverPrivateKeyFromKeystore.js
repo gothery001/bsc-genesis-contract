@@ -18,7 +18,6 @@ const passwords = require('./keystore/passwords.json');
   '0xF38f0dFF58a213f53d08E54c0fbF3e76b76213B1',
   '0x3361823a4294bE0ec6b01e7CC99dbBE3B26a3069'
 ]
-
 *
 * */
 

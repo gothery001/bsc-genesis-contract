@@ -33,6 +33,9 @@ const init = async () => {
     const extra = await bscValidatorSet.validatorExtraSet(index)
     log('index:', index.toNumber());
     log('extra:', extra);
+
+    const validators = await bscValidatorSet.getValidators();
+    log('validators:', validators);
 };
 
 const main = async () => {
