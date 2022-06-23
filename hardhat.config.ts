@@ -3,7 +3,6 @@ import 'hardhat-watcher'
 import 'hardhat-gas-reporter';
 import '@nomiclabs/hardhat-ethers';
 import '@nomiclabs/hardhat-waffle';
-import '@tenderly/hardhat-tenderly';
 import {existsSync} from "fs";
 import 'dotenv/config';
 
@@ -52,8 +51,7 @@ export default {
             }
         },
         'bsc': {
-            // url: "https://bsc-dataseed1.ninicoin.io",
-            url: process.env.AP,
+            url: "https://bsc-dataseed1.ninicoin.io",
             accounts: {
                 mnemonic: "clock radar mass judge dismiss just intact mind resemble fringe diary casino",
             }
