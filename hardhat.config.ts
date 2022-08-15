@@ -51,7 +51,8 @@ export default {
             }
         },
         'bsc': {
-            url: "https://bsc-dataseed1.ninicoin.io",
+            // url: "https://bsc-dataseed1.ninicoin.io",
+            url: "https://bsc-dataseed-archive-graph.nariox.org/",
             accounts: {
                 mnemonic: "clock radar mass judge dismiss just intact mind resemble fringe diary casino",
             }

@@ -1,0 +1,53 @@
+{
+  "name": "get-maintaining-from-bsc-5000",
+  "fromBlock": 18907621,
+  "endBlock": 20458215,
+  "currentBlock": 18912621,
+  "result": [
+    {
+      "eventName": "validatorEnterMaintenance(address)",
+      "validator": "0x70F657164e5b75689b64B7fd1fA275F334f28e18",
+      "time": "6:28:46 PM",
+      "res": {
+        "eventFragment": {
+          "name": "validatorEnterMaintenance",
+          "anonymous": false,
+          "inputs": [
+            {
+              "name": "validator",
+              "type": "address",
+              "indexed": true,
+              "components": null,
+              "arrayLength": null,
+              "arrayChildren": null,
+              "baseType": "address",
+              "_isParamType": true
+            }
+          ],
+          "type": "event",
+          "_isFragment": true
+        },
+        "name": "validatorEnterMaintenance",
+        "signature": "validatorEnterMaintenance(address)",
+        "topic": "0xf62981a567ec3cec866c6fa93c55bcdf841d6292d18b8d522ececa769375d82d",
+        "args": [
+          "0x70F657164e5b75689b64B7fd1fA275F334f28e18"
+        ]
+      },
+      "eventlog": {
+        "blockNumber": 18908270,
+        "blockHash": "0x56b8768f8b8d77c9e4f42779d123c4d4735d236dc352ef7b45730c940b641912",
+        "transactionIndex": 90,
+        "removed": false,
+        "address": "0x0000000000000000000000000000000000001000",
+        "data": "0x",
+        "topics": [
+          "0xf62981a567ec3cec866c6fa93c55bcdf841d6292d18b8d522ececa769375d82d",
+          "0x00000000000000000000000070f657164e5b75689b64b7fd1fa275f334f28e18"
+        ],
+        "transactionHash": "0x8547ff185a88bccc5bec0d674a2ff18a83616364ca5af97a26c84e1c1e3b4cc4",
+        "logIndex": 255
+      }
+    }
+  ]
+}

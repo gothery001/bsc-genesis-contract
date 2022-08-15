@@ -22,7 +22,7 @@ const init = async () => {
         SYSTEM_CONTRACT_ADDRESS.ValidatorContract
     )) as BSCValidatorSet;
 
-
+/*
     const blockNumber = await ethers.provider.getBlockNumber()
     log('blockNumber:', blockNumber);
 
@@ -36,6 +36,8 @@ const init = async () => {
 
     const validators = await bscValidatorSet.getValidators();
     log('validators:', validators);
+
+ */
 };
 
 const main = async () => {
