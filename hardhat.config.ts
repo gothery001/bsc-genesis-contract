@@ -43,6 +43,12 @@ export default {
             },
             allowUnlimitedContractSize: true,
         },
+        local: {
+            url: "http://127.0.0.1:8545",     // Localhost (default: none)
+            accounts: [
+              ''
+            ]
+        },
         development: {
             url: "http://127.0.0.1:8545",     // Localhost (default: none)
             accounts: [
